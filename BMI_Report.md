@@ -118,7 +118,7 @@ There is a children BMI category feature in the data, but no adult BMI category.
 
 We chose seven features, include age, gender, race, marital, education. 
 
-!["BMI_Race"](E:\My folder\1 Data Analytics\2 Data analytics with R\4 project\data\2017-2020 NHANES\data\1_BMI_Race.png)
+!["BMI_Race"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/1_BMI_Race.png?raw=true)
 
 
 <br><h3><b><a id="5.1"> Discussion 1</a> </b></h3><br>
@@ -133,7 +133,7 @@ The graph shows that about 50% of the Asian group is in healthy weight range whi
 We created a new feature, diabetes that is based on blood glucose.[12]
 We also apply the same method on it.
 
-!["BMI_insulin"](E:\My folder\1 Data Analytics\2 Data analytics with R\4 project\data\2017-2020 NHANES\data\6_BMI_insulin.png)
+!["BMI_insulin"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/6_BMI_insulin.png?raw=true)
 
 <br><h3><b><a id="5.2"> Discussion 2 </a></b></h3><br>
 
@@ -145,7 +145,7 @@ We didn't know what's wrong. In this data set we only dropped some missing value
 
 We added a new feature, cholesterol ratio.[13] In the Blood Pressure data set, both systolic and diastolic were taken three times. We took the average values of each.
 
-!["BMI,Blood Pressure and Chotesterol"](E:\My folder\1 Data Analytics\2 Data analytics with R\4 project\data\2017-2020 NHANES\data\7_heatmap_BMI_BPC.png)
+!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/7_heatmap_BMI_BPC.png?raw=true)
 <br><h3><b><a id="5.3"> Discussion 3 </a></b></h3><br>
 
 
@@ -153,7 +153,7 @@ We added a new feature, cholesterol ratio.[13] In the Blood Pressure data set, b
 The graph shows that BMI has a weak relationship with cholesterol ratio and Blood pressure. The outlandish part continues here. The indicator of relationship between BMI and age soared from 0.2 to 0.34. Since these are laboratory and examination data, we didn't over process the data. The big change was dropping missing values. Is this the problem? We went over the first data set and only chose two features, weight and age, that avoid dropping to much missing information. See heatmap below:
 
 
-!["BMI_age"](E:\My folder\1 Data Analytics\2 Data analytics with R\4 project\data\2017-2020 NHANES\data\3_heatmap_BMI_age.png)
+!["BMI_age"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/3_heatmap_BMI_age.png?raw=true)
 
 
 
@@ -172,7 +172,7 @@ Why did the indicator of age change so dramatically? We speculate that the missi
 Since the sample is biased, it's not necessary to show more analysis, but we found something interesting.
 
 
-!["BMI,Blood Pressure and Chotesterol"](E:\My folder\1 Data Analytics\2 Data analytics with R\4 project\data\2017-2020 NHANES\data\8_BMI_diet.png)
+!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/8_BMI_diet.png?raw=true)
 
 
 <br><h3><b><a id="5.5"> Discussion 5 </a></b></h3><br>
