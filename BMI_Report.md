@@ -5,7 +5,7 @@ Ziqi Polimeros<br>
 
 April 3rd 2022<br>
 
-!["BMI_Race"](\pictures\obesity.jpg)
+!["BMI_Race"](.\pictures\obesity.jpg)
 <br>[18]
 
 <br>
