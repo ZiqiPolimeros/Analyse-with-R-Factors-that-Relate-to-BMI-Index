@@ -1,3 +1,15 @@
+<html>
+<style>
+table, td {
+  padding-left: 60px;
+  padding-top: 10px;
+}
+th{
+  padding-top: 10px;
+}
+</style>
+<body>
+
 
 <h1 style="text-align:center;">Analyse with R: Factors That Relate to BMI Index</h1>
 
@@ -55,16 +67,7 @@ Correlation Coefficient
 </li></b>
 Correlation coefficients are used to measure the strength of a relationship between two variables.[8] The value of correlation coefficient, r range between -1 and +1. The table below shows that the relationship between two variables based on the value of r:
 
-<style>
-table, td {
-  padding-left: 60px;
-  padding-top: 10px;
-}
-th{
-  padding-top: 10px;
-}
-</style>
-<body>
+
 
 <table style="width:60%">
   <tr>
@@ -271,3 +274,6 @@ https://asiandiabetesprevention.org/what-is-diabetes/why-are-asians-higher-risk 
 [18] Centers for Disease Control and Prevention. <br>
 Overweight & Obesity<br>
 https://www.cdc.gov/obesity/data/prevalence-maps.html#overall <br>
+
+</body>
+</html>
