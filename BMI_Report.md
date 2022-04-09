@@ -1,14 +1,4 @@
-<html>
-<style>
-table, td {
-  padding-left: 60px;
-  padding-top: 10px;
-}
-th{
-  padding-top: 10px;
-}
-</style>
-<body>
+
 
 
 <h1 style="text-align:center;">Analyse with R: Factors That Relate to BMI Index</h1>
@@ -275,5 +265,4 @@ https://asiandiabetesprevention.org/what-is-diabetes/why-are-asians-higher-risk 
 Overweight & Obesity<br>
 https://www.cdc.gov/obesity/data/prevalence-maps.html#overall <br>
 
-</body>
-</html>
+
