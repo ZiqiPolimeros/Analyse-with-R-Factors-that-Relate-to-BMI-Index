@@ -49,7 +49,7 @@ There're two main methods in the project.
 <li><b>
 BMI
 </li></b>
-<p> BMI = \frac{weight(lb)}{[height(in)]^{2}}  &nbsp;&nbsp;&nbsp; [6]</p>
+<p> $BMI = \frac{weight(lb)}{[height(in)]^{2}}$  &nbsp;&nbsp;&nbsp; [6]</p>
 As you can see, BMI is based on two simple factors - height and weight. It's a crude method to roughly estimate body fat. It's not suitable for athletes who might have high BMI with normal body fat or very little body fat. However, "BMI is commonly used by doctors to screen for health problems stemming from weight issues".[7] In this project, we still used BMI to indicate body fat and classify overweight and obesity.
 
 <li><b>
