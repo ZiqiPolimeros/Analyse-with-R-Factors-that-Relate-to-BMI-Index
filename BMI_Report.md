@@ -5,7 +5,7 @@ Ziqi Polimeros<br>
 
 April 3rd 2022<br>
 
-!["BMI_Race"](.\pictures\obesity.jpg)
+!["BMI_Race"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/obesity.jpg?raw=true)
 <br>[18]
 
 <br>
