@@ -1,18 +1,11 @@
----
-title: ''
-output:
-  html_notebook: default
-  html_document:
-    df_print: paged
-  word_document: default
----
+
 <h1 style="text-align:center;">Analyse with R: Factors That Relate to BMI Index</h1>
 
 Ziqi Polimeros<br>
 
 April 3rd 2022<br>
 
-!["BMI_Race"](E:\My folder\1 pictures Analytics\2 pictures analytics with R\4 project\pictures\2017-2020 NHANES\pictures\obesity.jpg)
+!["BMI_Race"](\pictures\obesity.jpg)
 <br>[18]
 
 <br>
