@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Foo</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<style type='text/css'>
+body {
+  font-family: 'Helvetica Neue';
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+}
+
+.slide {
+  padding: 20px;
+  box-sizing: border-box;;
+}
+
+h1, h2, h3, p {
+  margin:0;
+  font-weight:200;
+}
+
+p, li {
+  margin-bottom: .5em;
+}
+
+code {
+  font-family: "Menlo", monospace;
+  letter-spacing: 0;
+}
+
+em, i {
+  font-weight: 200;
+}
+
+strong, b {
+  font-weight: 400;
+}
+
+mark {
+  color: orange;
+}
+
+a {
+  color: orange;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0;
+  left:0;
+}
+
+ol, ul {
+  margin: 0.5em 0;
+  padding-left: 1em;
+  list-style-type: square;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-left: .5em;
+}
+
+/*
+Sunburst-like style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #000; color: #f8f8f8;
+}
+
+pre .comment,
+pre .template_comment,
+pre .javadoc {
+  color: #aeaeae;
+  font-style: italic;
+}
+
+pre .keyword,
+pre .ruby .function .keyword,
+pre .request,
+pre .status,
+pre .nginx .title {
+  color: #E28964;
+}
+
+pre .function .keyword,
+pre .sub .keyword,
+pre .method,
+pre .list .title {
+  color: #99CF50;
+}
+
+pre .string,
+pre .tag .value,
+pre .cdata,
+pre .filter .argument,
+pre .attr_selector,
+pre .apache .cbracket,
+pre .date,
+pre .tex .command {
+  color: #65B042;
+}
+
+pre .subst {
+  color: #DAEFA3;
+}
+
+pre .regexp {
+  color: #E9C062;
+}
+
+pre .title,
+pre .sub .identifier,
+pre .pi,
+pre .tag,
+pre .tag .keyword,
+pre .decorator,
+pre .shebang,
+pre .prompt {
+  color: #89BDFF;
+}
+
+pre .class .title,
+pre .haskell .type,
+pre .smalltalk .class,
+pre .javadoctag,
+pre .yardoctag,
+pre .phpdoc {
+  text-decoration: underline;
+}
+
+pre .symbol,
+pre .ruby .symbol .string,
+pre .number {
+  color: #3387CC;
+}
+
+pre .params,
+pre .variable,
+pre .clojure .attribute {
+  color: #3E87E3;
+}
+
+pre .css .tag,
+pre .rules .property,
+pre .pseudo,
+pre .tex .special {
+  color: #CDA869;
+}
+
+pre .css .class {
+  color: #9B703F;
+}
+
+pre .rules .keyword {
+  color: #C5AF75;
+}
+
+pre .rules .value {
+  color: #CF6A4C;
+}
+
+pre .css .id {
+  color: #8B98AB;
+}
+
+pre .annotation,
+pre .apache .sqbracket,
+pre .nginx .built_in {
+  color: #9B859D;
+}
+
+pre .preprocessor {
+  color: #8996A8;
+}
+
+pre .hexcolor,
+pre .css .value .number {
+  color: #DD7B3B;
+}
+
+pre .css .function {
+  color: #DAD085;
+}
+
+pre .diff .header,
+pre .chunk,
+pre .tex .formula {
+  background-color: #0E2231;
+  color: #F8F8F8;
+  font-style: italic;
+}
+
+pre .diff .change {
+  background-color: #4A410D;
+  color: #F8F8F8;
+}
+
+pre .addition {
+  background-color: #253B22;
+  color: #F8F8F8;
+}
+
+pre .deletion {
+  background-color: #420E09;
+  color: #F8F8F8;
+}
+
+pre .coffeescript .javascript,
+pre .javascript .xml,
+pre .tex .formula,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .xml .css,
+pre .xml .cdata {
+  opacity: 0.5;
+}
+
+</style>
+<script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), cur = 0;
+    if (!s) return;
+    function go(n) {
+        cur = n;
+        var i = 1e3, e = s[n];
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline-block';
+        e.style.fontSize = i + 'px';
+        if (e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url(' + e.firstChild.src + ')';
+            e.firstChild.style.display = 'none';
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        while (
+            e.offsetWidth > window.innerWidth ||
+            e.offsetHeight > window.innerHeight) {
+            e.style.fontSize = (i -= 10) + 'px';
+            if (i < 0) break;
+        }
+        e.style.marginTop = ((window.innerHeight - e.offsetHeight) / 2) + 'px';
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() {
+        go(++cur % (s.length));
+    };
+    document.onkeydown = function(e) {
+        (e.which === 39) && go(Math.min(s.length - 1, ++cur));
+        (e.which === 37) && go(Math.max(0, --cur));
+    };
+    function parse_hash() {
+        return Math.max(Math.min(
+            s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) cur = parse_hash() || cur;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== cur) go(c);
+    };
+
+    go(cur);
+};
+</script></head><body>
+<div class="slide"><p><img src="https://static-secure.guim.co.uk/sys-images/Observer/Pix/pictures/2012/2/14/1329240222524/Steve-Coast-OpenStreetMap-007.jpg" alt=""></p>
+</div>
+<div class="slide"><h1>Правки без пакета</h1>
+</div>
+<div class="slide"><p>Апрель 2009: API&nbsp;0.6</p>
+</div>
+<div class="slide"><ul>
+<li>User ID</li>
+<li>Версии</li>
+<li><a href="http://www.openstreetmap.org/changeset/1">Пакеты правок</a></li>
+</ul>
+</div>
+<div class="slide"><ul>
+<li>Теги</li>
+<li>Не транзакции</li>
+<li>Обязательно закрывать</li>
+<li>50к объектов, сутки</li>
+</ul>
+</div>
+<div class="slide"><p>Сохранить сохранить сохранить сохранить сохранить cохранить сохранить сохранить сохранить сохранить cохранить сохранить сохранить сохранить сохранить cохранить сохранить сохранить сохранить сохранить cохранить сохранить сохранить сохранить сохранить.</p>
+</div>
+<div class="slide"><p><a href="http://www.openstreetmap.org/user/Zverik/history/feed">Мини-бложек</a>, риальне!</p>
+</div>
+<div class="slide"><ul>
+<li>Правка в течение часа</li>
+<li><a href="https://github.com/openstreetmap/openstreetmap-website/pull/1167">Не удалить</a></li>
+<li>Не откатить</li>
+</ul>
+</div>
+<div class="slide"><h1>Как не откатить?!</h1>
+</div>
+<div class="slide"><ul>
+<li><a href="http://wiki.openstreetmap.org/wiki/Revert_scripts">Скрипты на перле</a></li>
+<li><a href="http://wiki.openstreetmap.org/wiki/JOSM/Plugins/Reverter">Reverter</a></li>
+<li><a href="https://github.com/Zverik/simple-revert">Мои скрипты</a></li>
+</ul>
+</div>
+<div class="slide"><p>СЛОООООЖНО</p>
+</div>
+<div class="slide"><ol>
+<li>C1: nodes 1, 2</li>
+<li>C2: way A: 1→2</li>
+<li>C1: relation (A)</li>
+</ol>
+</div>
+<div class="slide"><p><img src="http://not.textual.ru/zverik/2/4/mapsme-watch-160524.png" alt=""></p>
+</div>
+<div class="slide"><p>Большие ченджсеты?</p>
+</div>
+<div class="slide"><p>Автоматическое описание</p>
+</div>
+<div class="slide"><h1>Мониторинг</h1>
+</div>
+<div class="slide"><ul>
+<li><a href="http://simon04.dev.openstreetmap.org/whodidit/">WhoDidIt</a></li>
+<li><a href="http://wiki.openstreetmap.org/wiki/Achavi">Achavi</a></li>
+<li><s>OWL</s></li>
+</ul>
+</div>
+<div class="slide"><h1>Диффы</h1>
+</div>
+<div class="slide"><p>Augmented Diffs</p>
+</div>
+<div class="slide"><p>Enhanced Replication</p>
+</div>
+<div class="slide"><ul>
+<li>lat/lon для точек в линии</li>
+<li>bbox для линий в отношении</li>
+<li>ссылки на владельца</li>
+<li>геометрия для удалённых</li>
+<li>пакеты правок</li>
+</ul>
+</div>
+<div class="slide"><p>Мониторинг теперь прост!</p>
+</div>
+<div class="slide"><p>Бонус: идеальный откатчик</p>
+</div>
+<div class="slide"><p>Илья Зверев, MAPS.ME, 2016</p>
+</div>
