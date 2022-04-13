@@ -183,6 +183,7 @@ Since the sample is biased, it's not necessary to show more analysis, but we fou
 
 
 In this sample, we examine ten diet behaviors, which included the following: <br> 
+<ol id = "toc">
 How healthy is your diet? <br>
 How much milk did you consumed in the past 30 days? <br>
 How many not-home-prepared meals did you consume in the past seven days?<br>
@@ -194,6 +195,7 @@ Are you the main meal planner/preparer? <br>
 Did you Share meal planning/preparing duty? <br>
 Are you the main food shopper? <br>
 Did you Share food shopping duty? <br>
+  </ol>
 <br>
 
 From the heatmap you can tell that most of the indicators of these factors are close to zero. The highest number is from "How healthy is your diet", 0.24.(We wondered if we analyze over 10 years of information, would this number go up?) Although it's considered no relationship, we checked the percentage of people that heard of My Plate or tried My Plate. It's really low, 13% and 4.4%, respectively. 
