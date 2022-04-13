@@ -1,0 +1,460 @@
+---
+title: "Analysis with R: Factors that Relate to BMI Index "
+author: "Ziqi Polimeros"
+date: "4/9/2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(SASxport)
+library(naniar)
+library(tidyverse)
+library(ggplot2)
+library(GGally)
+library(ggcorrplot)
+
+```
+
+
+<a href="#https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020">Data source: National Health and Nutrition Examination Survey (NHANES).</a>
+
+NHANES is an annual survey taken by the Centers for Disease Control and Prevention. The survey is a program that is designed to assess the health and nutritional status of adults and children in the United States. The program takes a nationwide  sample of about five thousand persons each year. Data collected includes demographics, dietary and health related questions and laboratory tests results. Analysis from the survey can be used to determine the risk factors for diseases.
+
+Our main objective is to analyse different behaviors that impact BMI index. We started the analysis on body measurements, demographics, insulin, blood glucose, cholesterol ration and blood pressure. We found a major problem that almost stopped the project. But later we found some interesting points. We demonstrated all the findings with bar graphs, proportion graphs and correlation heatmaps. 
+
+For this project, we used NHANES 2017 - March 2020 Pre-Pandemic Data. There are 82 data sets in the survey. Most of the data sets have about 15 thousand observations and dozens of features. We chose blood pressure, blood glucose, insulin and cholesterol data sets as known factors to examine our methods. We chose diet behavior data sets as unknown factors to analyse. 
+
+
+<h1>Dataset 1 Examination - Body Measures<h1>
+```{r}
+# read Body Measures dataset
+BodyMeasures = read.xport("P_BMX.XPT")
+
+```
+
+```{r}
+# rename varialbes
+BodyMeasures = BodyMeasures %>%
+  rename(Weight = BMXWT,
+         BMI = BMXBMI) %>%
+  select(SEQN,Weight,BMI,BMDBMIC)
+
+```
+
+
+```{r}
+# age <18, BMI
+BMIC = BodyMeasures %>% 
+  mutate(Class_BMI = BMDBMIC) %>% 
+  select(-BMDBMIC) %>%
+  drop_na()
+```
+
+There's children BMI category, but no adult BMI category in the original data
+```{r}
+# age > 18, BMI
+
+BMIA = BodyMeasures %>% 
+  filter(is.na(BMDBMIC)) %>%
+  select(-BMDBMIC) %>%
+  drop_na()
+
+BMIA$Class_BMI = cut(BMIA$BMI, 
+                     breaks = c(0,18.5,25,30,max(BMIA$BMI)),
+                     include.lowest = TRUE,
+                     labels = c(1,2,3,4))
+  
+```
+
+```{r}
+# combine children BMI and adult BMI two dataframes
+BMI = rbind(BMIA,BMIC)
+
+# convert Class_BMI to factor
+BMI$Class_BMI = as.factor(BMI$Class_BMI) 
+#[1]
+levels(BMI$Class_BMI) = c("Under Weight", 
+                          "Healthy Weight",
+                          "Overweight",
+                          "Obese")
+BMI
+```
+
+<h1> Dataset 2 Demographics <h1>
+```{r}
+Demographics = read.xport("P_DEMO.XPT") 
+```
+
+```{r}
+# rename variables
+Demographics = Demographics %>%
+  dplyr::rename(Gender = RIAGENDR,
+                Age = RIDAGEYR,
+                Race = RIDRETH3,
+                Education = DMDEDUC2,
+                Marital = DMDMARTZ,
+                Country_of_Birth = DMDBORN4) %>%
+  dplyr::select(SEQN,Age,Gender,Race,Country_of_Birth,
+                Marital,Education) 
+
+```
+
+```{r}
+# convert Gender,Race, Country_of_Birth and Marital to factor
+Demographics[,c(3:7)][] = lapply(Demographics[,c(3:7)],as.factor)
+```
+
+```{r}
+# rename levels
+levels(Demographics$Gender) = c("Male", "Female")
+levels(Demographics$Race) = c("Mexican American",
+                              "Hispanic",
+                              "White",
+                              "Black",
+                              "Asian",
+                              "Others including multi-racial")
+levels(Demographics$Country_of_Birth) = c("Born in US",
+                                          "Others",
+                                          "Refused",
+                                          "don't know")
+levels(Demographics$Marital) = c("Married/Living with Partner",
+                                 "Divorced/Separated",
+                                 "Never married",
+                                 "Refused",
+                                 "Don't know")
+levels(Demographics$Education) = c("Less than 9th grade",
+                                   "9-11th grade",
+                                   "High school graduate",
+                                   "Some college or AA degree",
+                                   "College graduate or above",
+                                   "Refused",
+                                   "Don't know")
+
+```
+
+```{r}
+# create a new variable Age_Range based on Age variable
+Demographics$Age_Range = cut(Demographics$Age,
+                             breaks = c(0,18,40,60,max(Demographics$Age)),
+                             include.lowest = TRUE,
+                             labels = c("Minor (smaller than 18 years old)",
+                                        "Young Adult (18-39)",
+                                        "Middle Age (40-60)",
+                                        "Seniors(greater than 60)"))
+Demographics
+```
+
+```{r}
+# combine BMI and Demographics dataframes
+BMI_Demo = merge(Demographics,BMI, by = "SEQN")
+
+```
+
+```{r}
+ggplot(BMI_Demo) +
+  aes(x = Race, y = BMI, fill = Class_BMI) +
+  geom_col(position = "fill") +
+  scale_x_discrete(guide = guide_axis(n.dodge=3))+
+#  geom_text(aes(label = n),  position = position_fill(0.5), vjust = 0, check_overlap = TRUE) +
+  labs(y = "Proportions",
+       title = "BMI Proportion vs. Race")
+```
+
+```{r}
+ggplot(BMI_Demo) +
+  aes(x = Age_Range, y = BMI, fill = Class_BMI) +
+  geom_col(position = "fill") +
+  labs(y = "Proportions",
+     title = "BMI Proportion vs. Age")
+```
+
+<h1> Dataset 3 Blood Test - Insulin <h1>
+```{r}
+Insulin = read.xport("P_INS.XPT")
+
+```
+
+```{r}
+Insulin = Insulin %>%
+  rename(Insulin_μU_mL = LBXIN) %>%
+  select(SEQN,Insulin_μU_mL)
+```
+
+<h1> Dataset 4 Blood Test - Blood Glucose <h1>
+```{r}
+Blood_Glucose= read.xport("P_GLU.XPT")
+
+```
+
+```{r}
+Blood_Glucose = Blood_Glucose %>%
+  rename(Fasting_glucose = LBXGLU) %>%
+  select(SEQN,Fasting_glucose)
+```
+
+```{r}
+# combine insulin and glucose
+GI = merge(Insulin,Blood_Glucose)
+BMI_Demo[,c(1:4,8:11)]
+```
+
+```{r}
+# combine insulin, glucose and BMI
+BIG = merge(GI,BMI_Demo[,c(1:4,8:11)])
+BIG = BIG %>% drop_na()
+```
+
+```{r}
+BIG = BIG %>%
+  # [3] 0 = normal, 0.5 = prediabetes, 1 = diabetes
+  dplyr::mutate(Diabetes = ifelse(Fasting_glucose < 100, 0,
+                    ifelse(Fasting_glucose >=100 & Fasting_glucose <126, 0.5,
+                    ifelse(Fasting_glucose >= 126,1,NA)))) 
+BIG  
+```
+
+
+```{r}
+# show the relation ship of BMI, insulin and blood gloucose
+ggcorrplot(cor(BIG[,c(2:4,8:9,11)],method = "spearman"),
+           type = "lower",
+           hc.order =TRUE,
+           colors = c("blue", "white", "#E46726"),
+           lab = TRUE) +
+  labs(title = "Correlation Heatmap of BMI, Insulin and Blood Glucose")
+```
+
+
+<h1> Dataset 5 Blood Test -  Cholesterol - Total </h1>
+
+```{r}
+CholesterolTotal = read.xport("P_TCHOL.XPT")
+
+```
+
+<h1> Dataset 6 Blood Test -  Cholesterol - High-Density Lipoprotein</h1>
+```{r}
+CholesterolHDL = read.xport("P_HDL.XPT")
+CholesterolHDL
+```
+
+```{r}
+Cholesterol = merge(CholesterolTotal,CholesterolHDL, by = "SEQN")
+```
+
+```{r}
+Cholesterol = Cholesterol %>%
+  mutate(Ratio_Total_HDL = LBXTC/LBDHDD ) %>%
+  select(SEQN, Ratio_Total_HDL)%>%
+  drop_na()
+  
+```
+
+```{r}
+# create new variable Class_Cholesterol
+Cholesterol$Class_Cholesterol = cut(Cholesterol$Ratio_Total_HDL, 
+                                    breaks = c(0,3.5,4,5,max(Cholesterol$Ratio_Total_HDL)), #[2]
+                                    labels = c("The lowest risk of heart attack",
+                                             "14% more likely to experience heart attack",
+                                             "46% more likely to experience heart attack",
+                                             "89% more likely to experience heart attack"))
+```
+
+
+<h1> Dataset 7 Blood Pressure </h1>
+
+```{r}
+BloodPressure = read.xport("P_BPXO.XPT")
+
+```
+
+```{r}
+BloodPressure = BloodPressure %>%
+  rename(Systolic1 = BPXOSY1,
+         Diastolic1 = BPXODI1,
+         Systolic2 = BPXOSY2,
+         Diastolic2 = BPXODI2,
+         Systolic3 = BPXOSY3,
+         Diastolic3 = BPXODI3,
+         Pules1 = BPXOPLS1,
+         Pules2 = BPXOPLS2,
+         Pules3 = BPXOPLS3) %>%
+  select(-BPAOARM, -BPAOCSZ)
+```
+
+```{r}
+# take the average values of Systolic and Diastolic
+BloodPressure = BloodPressure %>%
+  mutate(Systolic = (Systolic1 + Systolic2  + Systolic3)/3,
+         Diastolic = (Diastolic1 + Diastolic2 + Diastolic3)/3,
+         Pules = (Pules1 + Pules2 + Pules3)/3) %>%
+  select(SEQN,Systolic,Diastolic)
+```
+```{r}
+BMI_age = BMI_Demo %>% select(SEQN,Age,BMI,Weight,Age_Range, Class_BMI)
+```
+
+```{r}
+BPC = merge(BloodPressure,Cholesterol)
+BPC_BMI = merge(BMI_age,BPC)
+```
+
+```{r}
+BPC_BMI = BPC_BMI %>% drop_na()
+BPC_BMI
+```
+
+
+```{r}
+ggcorrplot(cor(BPC_BMI[,c(2:3,7:9)],method = "spearman"),
+           type = "lower",
+           hc.order =TRUE,
+           colors = c("blue", "white", "#E46726"),
+           lab = TRUE) +
+  labs(title = "Correlation Heatmap of BMI, Blood Pressure and Cholesterol")
+```
+
+The correlation of BIM and Age here is 0.34, but in previous heatmap, it is 0.2. So we wanted to check the correlation in the biggest data set here. 
+
+
+
+```{r}
+ggcorrplot(cor(BMI_age[,c(2:4)],method = "spearman"),
+           type = "lower",
+           hc.order =TRUE,
+           colors = c("blue", "white", "#E46726"),
+           lab = TRUE) +
+  labs(title = "Correlation Heatmap of BMI, Blood Pressure and Cholesterol")
+```
+
+We have three values of relationship of BMI and age. Should we still continue the project?
+Now we only have one data set left. Let's just finish it.
+
+<h1>Data set 8: Diet Behaviors </h1>
+```{r}
+# read dataset of Diet Behavior 
+Q_Diet_Raw= read.xport("P_DBQ.XPT")
+Q_Diet_Raw 
+```
+
+```{r}
+# rename variables
+Q_Diet = Q_Diet_Raw %>%
+  rename(Milk = DBQ197, 
+         How_Healthy_IsYourDiet = DBQ700,
+         NumberOf_meals_notHomePrepared = DBD895,
+         Fast_Food = DBD900,
+         Food_From_Grocery = DBD905,
+         FrozenMeals = DBD910,
+         Heard_of_My_Plate = CBQ596,
+         Tried_My_plate = CBQ611,
+         Meal_planner = DBQ930,
+         Share_meal_plan = DBQ935,
+         Food_shopper = DBQ940,
+         Share_food_shopping = DBQ945) %>% 
+  select(SEQN,Milk,How_Healthy_IsYourDiet,
+         NumberOf_meals_notHomePrepared,Fast_Food,
+         Food_From_Grocery,FrozenMeals,
+         Heard_of_My_Plate,Tried_My_plate,
+         Meal_planner,Share_meal_plan,
+         Food_shopper,Share_food_shopping)
+```
+
+```{r}
+# filter out "don't know" and "refused"
+Q_Diet = Q_Diet %>%
+  filter(Milk != 9,
+         How_Healthy_IsYourDiet != 7,
+         How_Healthy_IsYourDiet != 9,
+         NumberOf_meals_notHomePrepared != 7777,
+         NumberOf_meals_notHomePrepared != 9999,
+         Fast_Food != 9999,
+         Food_From_Grocery != 9999,
+         FrozenMeals != 9999,
+         Heard_of_My_Plate != 9,
+         Meal_planner != 9,
+         Share_meal_plan != 7,
+         Food_shopper != 7,
+         Share_food_shopping != 7)
+```
+
+```{r}
+Q_Diet = Q_Diet %>%
+        # 22 = more than 21 meals in last 7 days
+  mutate(NumberOf_meals_notHomePrepared = 
+           replace(NumberOf_meals_notHomePrepared , 
+                   NumberOf_meals_notHomePrepared == 55555, 22),
+         # 22 = more than 21 meals in last 7 days
+         Fast_Food = 
+           replace(Fast_Food,
+                   Fast_Food == 55555,22),
+         # 91 = More than 90 times in 30 days
+         Food_From_Grocery = 
+           replace(Food_From_Grocery, 
+                   Food_From_Grocery == 6666, 91),
+         # 91 = More than 90 times in 30 days
+         FrozenMeals = 
+           replace(FrozenMeals, 
+                   FrozenMeals == 6666, 91)) 
+```
+
+```{r}
+Q_Diet$Heard_of_My_Plate = ifelse(Q_Diet$Heard_of_My_Plate == 1, 1,0)
+Q_Diet$Tried_My_plate = ifelse(Q_Diet$Tried_My_plate == 1, 1,0)
+```
+
+
+```{r}
+# percentage of people that heard of my plate
+Q_Diet %>%
+  filter(Heard_of_My_Plate == 1) %>%
+  count() %>%
+  mutate(perc = 100*n/nrow(Q_Diet_Raw))
+Q_Diet
+```
+
+
+```{r}
+# How many percentage of people did try my plate plan？
+Q_Diet %>%
+  filter(Tried_My_plate == 1) %>%
+  count() %>%
+  mutate(perc = 100*n/nrow(Q_Diet_Raw))
+```
+
+```{r}
+Diet_BMI_age = merge(BMI_age,Q_Diet)
+Diet_BMI = Diet_BMI_age[,c(2:4,7:13,15:18)]
+```
+
+```{r}
+ggcorrplot(cor(Diet_BMI,method = "spearman"),
+           type = "lower",
+           hc.order =TRUE,
+           colors = c("blue", "white", "#E46726"),
+           lab = TRUE) +
+  labs(title = "Correlation Heatmap of BMI and Diet Behaviors")
+```
+
+
+[1] 
+https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
