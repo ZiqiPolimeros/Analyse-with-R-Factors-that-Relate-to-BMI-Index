@@ -175,7 +175,7 @@ Why did the indicator of age change so dramatically? We speculate that the missi
 Since the sample is biased, it's not necessary to show more analysis, but we found something interesting.
 
 
-!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analysis-with-R-Factors-that-Relate-to-BMI/blob/main/pictures/8_BMI_diet%20.png?raw=true)
+!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analysis-with-R-Factors-that-Relate-to-BMI/blob/main/pictures/8_BMI_diet.png?raw=true)
 
 
 <br><h3><b><a id="5.5"> Discussion 5 </a></b></h3><br>
