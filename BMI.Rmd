@@ -14,7 +14,7 @@ library(tidyverse)
 library(ggplot2)
 library(GGally)
 library(ggcorrplot)
-
+library(fs) # read multiple files
 ```
 
 
@@ -79,7 +79,6 @@ levels(BMI$Class_BMI) = c("Under Weight",
                           "Healthy Weight",
                           "Overweight",
                           "Obese")
-BMI
 ```
 
 <h1> Dataset 2 Demographics <h1>
@@ -143,7 +142,7 @@ Demographics$Age_Range = cut(Demographics$Age,
                                         "Young Adult (18-39)",
                                         "Middle Age (40-60)",
                                         "Seniors(greater than 60)"))
-Demographics
+
 ```
 
 ```{r}
@@ -212,7 +211,7 @@ BIG = BIG %>%
   dplyr::mutate(Diabetes = ifelse(Fasting_glucose < 100, 0,
                     ifelse(Fasting_glucose >=100 & Fasting_glucose <126, 0.5,
                     ifelse(Fasting_glucose >= 126,1,NA)))) 
-BIG  
+ 
 ```
 
 
@@ -237,7 +236,7 @@ CholesterolTotal = read.xport("P_TCHOL.XPT")
 <h1> Dataset 6 Blood Test -  Cholesterol - High-Density Lipoprotein</h1>
 ```{r}
 CholesterolHDL = read.xport("P_HDL.XPT")
-CholesterolHDL
+
 ```
 
 ```{r}
@@ -303,7 +302,7 @@ BPC_BMI = merge(BMI_age,BPC)
 
 ```{r}
 BPC_BMI = BPC_BMI %>% drop_na()
-BPC_BMI
+
 ```
 
 
@@ -332,111 +331,146 @@ ggcorrplot(cor(BMI_age[,c(2:4)],method = "spearman"),
 We have three values of relationship of BMI and age. Should we still continue the project?
 Now we only have one data set left. Let's just finish it.
 
-<h1>Data set 8: Diet Behaviors </h1>
+<h1>Diet Behaviors </h1>
+
+Read file names
 ```{r}
-# read dataset of Diet Behavior 
-Q_Diet_Raw= read.xport("P_DBQ.XPT")
-Q_Diet_Raw 
+file_list = dir_ls("./DATA")
+
+```
+
+Read all the files
+```{r}
+df_list = map(file_list, read.xport)
+
+```
+
+
+Select diet behavior columns
+```{r}
+for(i in seq(9,12)){
+  df_list[[i]] = df_list[[i]] %>%
+    select(SEQN,DBQ197,DBQ700,DBD895,DBD900,DBD905,DBD910) %>%
+    mutate(Year = as.numeric(gsub("\\D","",names(df_list[i]))))
+}
+```
+
+merge age with diet behavior into one dataframe
+
+
+```{r}
+N2011 = merge(df_list[[9]],df_list[[1]][,c("SEQN","RIDAGEYR")])
 ```
 
 ```{r}
-# rename variables
-Q_Diet = Q_Diet_Raw %>%
-  rename(Milk = DBQ197, 
-         How_Healthy_IsYourDiet = DBQ700,
-         NumberOf_meals_notHomePrepared = DBD895,
-         Fast_Food = DBD900,
-         Food_From_Grocery = DBD905,
+N2013 = merge(df_list[[10]],df_list[[2]][,c("SEQN","RIDAGEYR")])
+```
+
+```{r}
+N2015 = merge(df_list[[11]],df_list[[3]][,c("SEQN","RIDAGEYR")])
+```
+
+```{r}
+N2019 = merge(df_list[[12]],df_list[[8]][,c("SEQN","RIDAGEYR")])
+```
+
+```{r}
+#combine the datasets from 2007 to 2019
+Diet = do.call("rbind", list(N2011,N2013,N2015,N2019))
+```
+
+Rename 
+```{r}
+Diet = Diet %>%
+  drop_na() %>%
+  rename(Milk = DBQ197,
+         How_healthy_the_diet = DBQ700,
+         Meals_not_home_perpared = DBD895,
+         FastFood = DBD900,
+         Ready_to_eat_foods = DBD905,
          FrozenMeals = DBD910,
-         Heard_of_My_Plate = CBQ596,
-         Tried_My_plate = CBQ611,
-         Meal_planner = DBQ930,
-         Share_meal_plan = DBQ935,
-         Food_shopper = DBQ940,
-         Share_food_shopping = DBQ945) %>% 
-  select(SEQN,Milk,How_Healthy_IsYourDiet,
-         NumberOf_meals_notHomePrepared,Fast_Food,
-         Food_From_Grocery,FrozenMeals,
-         Heard_of_My_Plate,Tried_My_plate,
-         Meal_planner,Share_meal_plan,
-         Food_shopper,Share_food_shopping)
+         Age = RIDAGEYR)
 ```
 
 ```{r}
-# filter out "don't know" and "refused"
-Q_Diet = Q_Diet %>%
+Diet = Diet %>%
+  #filter out refuse and don't know observations
   filter(Milk != 9,
-         How_Healthy_IsYourDiet != 7,
-         How_Healthy_IsYourDiet != 9,
-         NumberOf_meals_notHomePrepared != 7777,
-         NumberOf_meals_notHomePrepared != 9999,
-         Fast_Food != 9999,
-         Food_From_Grocery != 9999,
-         FrozenMeals != 9999,
-         Heard_of_My_Plate != 9,
-         Meal_planner != 9,
-         Share_meal_plan != 7,
-         Food_shopper != 7,
-         Share_food_shopping != 7)
+         Milk != 7,
+         How_healthy_the_diet != 7,
+         How_healthy_the_diet != 9,
+         Meals_not_home_perpared != 7777,
+         Meals_not_home_perpared != 9999,
+         FastFood != 7777,
+         FastFood != 9999,
+         Ready_to_eat_foods != 7777,
+         Ready_to_eat_foods !=9999,
+         FrozenMeals != 7777,
+         FrozenMeals != 9999) %>%
+  mutate(How_healthy_the_diet1 = ifelse(How_healthy_the_diet == 5, 10, # 5 = poor
+                                 ifelse(How_healthy_the_diet == 4, 11, # 4 = fair
+                                 ifelse(How_healthy_the_diet == 3, 12, # 3 = good
+                                 ifelse(How_healthy_the_diet == 2, 13, # 2 = very good
+                                 ifelse(How_healthy_the_diet == 1, 14,NA))))), # 1 = Excellent
+         Meals_not_home_perpared = replace(Meals_not_home_perpared, Meals_not_home_perpared == 5555, 22),
+         FastFood = replace(FastFood, FastFood == 5555, 22),
+         Ready_to_eat_foods = replace(Ready_to_eat_foods, Ready_to_eat_foods == 6666, 91),
+         FrozenMeals = replace(FrozenMeals, FrozenMeals == 6666,91)) 
+  
 ```
 
 ```{r}
-Q_Diet = Q_Diet %>%
-        # 22 = more than 21 meals in last 7 days
-  mutate(NumberOf_meals_notHomePrepared = 
-           replace(NumberOf_meals_notHomePrepared , 
-                   NumberOf_meals_notHomePrepared == 55555, 22),
-         # 22 = more than 21 meals in last 7 days
-         Fast_Food = 
-           replace(Fast_Food,
-                   Fast_Food == 55555,22),
-         # 91 = More than 90 times in 30 days
-         Food_From_Grocery = 
-           replace(Food_From_Grocery, 
-                   Food_From_Grocery == 6666, 91),
-         # 91 = More than 90 times in 30 days
-         FrozenMeals = 
-           replace(FrozenMeals, 
-                   FrozenMeals == 6666, 91)) 
-```
-
-```{r}
-Q_Diet$Heard_of_My_Plate = ifelse(Q_Diet$Heard_of_My_Plate == 1, 1,0)
-Q_Diet$Tried_My_plate = ifelse(Q_Diet$Tried_My_plate == 1, 1,0)
+BMI_C = do.call("rbind", list(df_list[[4]][,c("SEQN","BMXBMI","BMDBMIC","BMXWT")],
+                      df_list[[5]][,c("SEQN","BMXBMI","BMDBMIC","BMXWT")],
+                      df_list[[6]][,c("SEQN","BMXBMI","BMDBMIC","BMXWT")],
+                      df_list[[7]][,c("SEQN","BMXBMI","BMDBMIC","BMXWT")]))
 ```
 
 
 ```{r}
-# percentage of people that heard of my plate
-Q_Diet %>%
-  filter(Heard_of_My_Plate == 1) %>%
-  count() %>%
-  mutate(perc = 100*n/nrow(Q_Diet_Raw))
-Q_Diet
+BMI_C_Diet = merge(BMI_C, Diet)
+
 ```
 
-
+Teenage BMI
 ```{r}
-# How many percentage of people did try my plate plan？
-Q_Diet %>%
-  filter(Tried_My_plate == 1) %>%
-  count() %>%
-  mutate(perc = 100*n/nrow(Q_Diet_Raw))
+BMIC = BMI_C_Diet%>%
+  rename(Weight = BMXWT) %>%
+  mutate(BMI = BMDBMIC) %>%
+  drop_na() %>%
+  select(c(-3,-6))
+
+```
+
+Adult BMI
+```{r}
+BMIA = BMI_C_Diet %>%
+  filter(is.na(BMDBMIC)) %>%
+  mutate(BMI = ifelse( BMXBMI < 18.5,1,
+               ifelse( BMXBMI >= 18.5 & BMXBMI < 25,2,
+               ifelse( BMXBMI >= 25 & BMXBMI < 35, 3,
+               ifelse( BMXBMI >= 35,4,NA))))) %>%
+  rename(Weight = BMXWT) %>%
+  select(c(-3,-6)) 
+  
+  
 ```
 
 ```{r}
-Diet_BMI_age = merge(BMI_age,Q_Diet)
-Diet_BMI = Diet_BMI_age[,c(2:4,7:13,15:18)]
+BMI = rbind(BMIC,BMIA)
+BMI = BMI %>% drop_na()
+
 ```
 
 ```{r}
-ggcorrplot(cor(Diet_BMI,method = "spearman"),
+ggcorrplot(cor(BMI[,c(-1,-2)],method = "spearman"),
            type = "lower",
            hc.order =TRUE,
            colors = c("blue", "white", "#E46726"),
            lab = TRUE) +
   labs(title = "Correlation Heatmap of BMI and Diet Behaviors")
 ```
+
 
 
 [1] 
