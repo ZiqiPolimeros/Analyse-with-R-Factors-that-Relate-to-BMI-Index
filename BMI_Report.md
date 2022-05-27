@@ -55,15 +55,7 @@ Correlation Coefficient
 </li></b>
 Correlation coefficients are used to measure the strength of a relationship between two variables.[6] The value of correlation coefficient, r range between -1 and +1. The table below shows that the relationship between two variables based on the value of r:
 
-<style>
-table, td {
-  padding-left: 60px;
-  padding-top: 10px;
-}
-th{
-  padding-top: 10px;
-}
-</style>
+
 <body>
 
 <table style="width:60%">
