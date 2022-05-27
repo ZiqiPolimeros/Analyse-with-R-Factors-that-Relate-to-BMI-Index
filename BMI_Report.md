@@ -1,4 +1,7 @@
 
+
+
+
 <h1 style="text-align:center;">Analysis with R: Factors That Relate to Body Mass Index</h1>
 
 Ziqi Polimeros<br>
@@ -6,11 +9,10 @@ Ziqi Polimeros<br>
 April 3rd 2022<br>
 
 !["BMI_Race"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/obesity.jpg?raw=true)
-<br>[18]
+<br>[13]
 
 <br>
 <a href="#1">Introduction</a><br />
-  <a href="#2">Abstract</a><br />
   <a href="#3">Data Sources and Methods</a><br />
   <a href="#4">Feature Selections and Data Cleansing</a><br />
   <a href="#5">Data Analysis and Visualization</a><br />
@@ -36,13 +38,9 @@ obesity is correlated with various diseases, such as high blood pressure, diabet
 NHANES is an annual survey taken by the Centers for Disease Control and Prevention(CDC). The survey is a program that is designed to assess the health and nutritional status of adults and children in the United States. The program takes a nationwide  sample of about five thousand persons each year. Data collected includes demographics, dietary and health related questions and laboratory tests results. Analysis from the survey can be used to determine the risk factors for diseases.
 
 
-<h1 style="background-color:#e5f5f7;"><a id="2"> Abstract</a> </h1>
-
-For this project we used the R programming language to perform data cleansing, wrangling and visualization. Our main objective was to analyze different behaviors that impact BMI. We started the analysis on body measurements, demographics, insulin, blood glucose, cholesterol ration and blood pressure. We found a major problem that almost stopped the project. But later we found some interesting points. We demonstrated all the findings with bar graphs, proportion graphs and correlation heatmaps. 
-
 <h1 style="background-color:#e5f5f7;"><a id="3"> Data Sources and Methods</a></h1>
 
-For this project, we used NHANES 2017 - March 2020 Pre-Pandemic Data.[3] There are 82 data sets in the survey. Most of the data sets have about 15 thousand observations and dozens of features. We chose blood pressure, blood glucose, insulin and cholesterol data sets as known factors to examine our methods. We chose diet behavior data sets as unknown factors to analyze. 
+For this project, we used NHANES 2017 - March 2020 Pre-Pandemic Data[3] There are 82 data sets in the survey. Most of the data sets have about 15 thousand observations and dozens of features. We chose blood pressure, blood glucose, insulin and cholesterol data sets as known factors to examine our methods. We chose diet behavior data sets from  NHANES 2011, 2013, 2015 and NHANES 2017 - March 2020 Pre-Pandemic Data as unknown factors to analyze. 
 
 There are two main methods in the project. 
 
@@ -110,12 +108,10 @@ Our original data sets had missing information. We chose features with minimal m
 
 <h1 style="background-color:#e5f5f7;"><a id="5">  Data Analysis and Visualization</a></h1>
 
-<h3> First data set: </h3>
 <h4><i> Body Measures  </h4></i> 
 
 There is a children's BMI category feature in the data, but no adult BMI category. The method we used to classify adult BMI is from National Heart, Lung, and Blood Institute.[8]
 
-<h3> Second data set: </h3>
 <h4><i> Demographics </h4></i>
 
 We chose seven features, including age, gender, race, marital, and education. 
@@ -130,7 +126,6 @@ The percentage of obesity is lower than 25% in the Asian group while around 50% 
 Are Asians healthier than other race groups? Some Asian Americans are in normal weight range, but have less muscle and more body fat.[9] That's another factor that impact the accuracy of BMI.
 
 
-<h3> Third and Fourth Data set: </h3>
 <h4><i> Insulin and Blood Glucose</h4></i>
 
 We created a new feature, diabetes that is based on blood glucose.[10]
@@ -143,7 +138,7 @@ We also apply the same method on it.
 The graph shows that there's a moderate relationship between BMI and Insulin. But blood glucose and diabetes have a weak relationship with BMI. However, the indicator of relationship between BMI and age is 0.2 which means there's no relationship! 
 We didn't know what's wrong. In this data set we only dropped some missing values, which is the requirement of performing the method. We wanted to find another material to do the analysis, but it's really difficult to find a data set that contains such comprehensive information and detailed explanation of features. We continued the analysis and hoped the problem can be avoided or addressed.
 
-<h3> Fifth, Sixth and Seventh Data set: </h3>
+
 <h4><i>Total Cholesterol, High Density Cholesterol and Blood Pressure</h4></i>
 
 We added a new feature, cholesterol ratio.[11] In the Blood Pressure data set, both systolic and diastolic were taken three times. We took the average values of each.
@@ -168,14 +163,12 @@ Why did the indicator of age change so dramatically? We speculate that the missi
 
  
 
-
-<h3> Eighth Data set: </h3>
 <h4><i>Diet Behaviors</h4></i>
 
 Since the sample is biased, it's not necessary to show more analysis, but we found something interesting.
 
 
-!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analysis-with-R-Factors-that-Relate-to-BMI/blob/main/pictures/8_BMI_diet.png?raw=true)
+!["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/8_BMI_diet.png?raw=true)
 
 
 <br><h3><b><a id="5.5"> Discussion 5 </a></b></h3><br>
@@ -188,87 +181,59 @@ How healthy is your diet? <br>
 How much milk did you consumed in the past 30 days? <br>
 How many not-home-prepared meals did you consume in the past seven days?<br>
 How many of your meals in the past seven days were from fast food or pizza place?<br>
-How many of your meals in the past 30 days were from grocery stores?<br>
+How many of your meals in the past 30 days were from grocery stores(Ready_to_eat_foods)?<br>
 How many frozen meals/pizzas did you consume in past 30 days? <br>
-Have you heard of My Plate? <br>
-Are you the main meal planner/preparer? <br>
-Did you Share meal planning/preparing duty? <br>
-Are you the main food shopper? <br>
-Did you Share food shopping duty? <br>
+
   </ol>
 <br>
 
-From the heatmap you can tell that most of the indicators of these factors are close to zero. The highest number is from "How healthy is your diet", 0.24.(We wondered if we analyze over 10 years of information, would this number go up?) Although it's considered no relationship, we checked the percentage of people that heard of My Plate or tried My Plate. It's really low, 13% and 4.4%, respectively. 
+From the heatmap you can tell that most of the indicators of these factors are close to zero. The lowest number is from "How healthy is your diet", negative 0.22, which still considered no relationship. We couldn't find any relationship between BMI and the diet behaviors above.
 
-The concept of a healthy diet is changing. We grew up with food pyramid[13], which is  about 40% grains or breads, about 20% vegetables, 15% fruits, about 10% meat, 10% dairy, with fat making up less than 8%. This diet can be easily switched to high carbohydrate diet, which is over 60% of total dietary energy that is from carbohydrates.  With 40% gains or breads in your meal, if you choose potato,sweet potato,corn, pumpkins, taro, or yams as vegetables, your meal become high carbohydrate. This diet increase cholesterol and insulin resistance, having the greatest impact on insulin-resistant states, such as type 2 diabetes.[14] Asian people are in low percentage of obesity, but in high risk of diabetes.[15] Diet probably plays a Huge role here. We wish CDC do more publicity of my plate plan [13] and improve people's awareness of healthy diets to prevent obesity.
-
+As we all know that what we eat and drink directly impact our weight. Before analyzed the dataset, we expected to build a predictive model based on some diet behaviors. However, we couldn't find any proof that the diet behaviors from NHANES impact BMI. We are of the opinion that those questions didn't relate to body weight. If we want to measure the relationship between BMI and diet behaviors, we need to ask specific questions, such as the proportion of protein or carbohydrate in your diet, how much calories do you consume daily, when do you have breakfast or dinner, etc. 
 
 
 
 
 <h1 style="background-color:#e5f5f7;"><a id="6"> References</a> </h1>
 
-[1] Centers for Disease Control and Prevention.<br>
-Obesity is a common, serious, and costly disease. <br>
-https://www.cdc.gov/obesity/data/adult.html#:~:text=From%201999%20%E2%80%932000%20through%202017,and%20certain%20types%20of%20cancer. <br>
-
-[2] Centers for Disease Control and Prevention. <br>
-NHANES - About the National Health and Nutrition Examination Survey. <br>
-https://www.cdc.gov/nchs/nhanes/about_nhanes.htm <br>
-Date published September 15, 2017 <br>
+[1] 
+<a href="https://www.cdc.gov/obesity/data/adult.html#:~:text=From%201999%20%E2%80%932000%20through%202017,and%20certain%20types%20of%20cancer">Obesity is a common, serious, and costly disease</a>  <br>
 
 
-[3] Centers for Disease Control and Prevention. <br>
-NHANES 2017 - March 2020 <br>
-https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020
+[2] 
+<a href="https://www.cdc.gov/nchs/nhanes/about_nhanes.htm">NHANES - About the National Health and Nutrition Examination Survey</a>  <br>
 
-[4] Centers for Disease Control and Prevention. <br>
-Calculating BMI using the English System.<br>
-https://www.cdc.gov/nccdphp/dnpao/growthcharts/training/bmiage/page5_2.html
 
-[5] Running Shoes Guru.<br>
-How BMI Impacts Sports and How Much You Should Depend on It.<br>
-https://www.runningshoesguru.com/content/how-bmi-impacts-sports-and-how-much-you-should-depend-on-it/#:~:text=The%20American%20Exercise%20Council%20on,height%20than%20long%2Ddistance%20runners.<br>
+[3] 
+<a href="https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020">NHANES 2017 - March 2020</a>  <br>
 
-[6] Statistics How To <br>
-Correlation Coefficient: Simple Definition, Formula, Easy Steps. <br>
-https://www.statisticshowto.com/probability-and-statistics/correlation-coefficient-formula/ <br>
+[4] 
+<a href="https://www.cdc.gov/nccdphp/dnpao/growthcharts/training/bmiage/page5_2.html">Calculating BMI using the English System</a>  <br>
 
-[7] Statology. <br>
-What is Considered to Be a “Strong” Correlation?. <br>
-https://www.statology.org/what-is-a-strong-correlation/. <br>
+[5] 
+<a href="https://www.runningshoesguru.com/content/how-bmi-impacts-sports-and-how-much-you-should-depend-on-it/#:~:text=The%20American%20Exercise%20Council%20on,height%20than%20long%2Ddistance%20runners">How BMI Impacts Sports and How Much You Should Depend on It</a>  <br>
 
-[8] National Heart, Lung, and Blood Institute. <br>
-Calculate Your Body Mass Index. <br>
-https://www.nhlbi.nih.gov/health/educational/lose_wt/BMI/bmicalc.htm <br>
+[6] 
+<a href="https://www.statisticshowto.com/probability-and-statistics/correlation-coefficient-formula">Correlation Coefficient: Simple Definition, Formula, Easy Steps</a>  <br>
 
-[9]  Centers for Disease Control and Provention. <br>
-Diabetes and Asian Americans <br>
-https://www.cdc.gov/diabetes/library/spotlights/diabetes-asian-americans.html.<br>
+[7] 
+<a href="https://www.statology.org/what-is-a-strong-correlation">What is Considered to Be a “Strong” Correlation?</a>  <br>
 
-[10] Centers for Disease Control and Provention. <br>
-Tests for Type 1 Diabetes, Type 2 Diabetes, and Prediabetes. <br>
-https://www.cdc.gov/diabetes/basics/getting-tested.html<br>
+[8] 
+<a href="https://www.nhlbi.nih.gov/health/educational/lose_wt/BMI/bmicalc.htm">Calculate Your Body Mass Index</a>  <br>
 
-[11] Healthine.<br>
-Understanding the Cholesterol Ratio: What It Is and Why It’s Important.<br>
-https://www.healthline.com/health/cholesterol-ratio<br>
+[9] 
+<a href="https://www.cdc.gov/diabetes/library/spotlights/diabetes-asian-americans.html">Diabetes and Asian Americans</a>  <br>
 
-[12] Harvard Health Publishing. <br>
-Preserve your muscle mass. <br>
-https://www.health.harvard.edu/staying-healthy/preserve-your-muscle-mass#:~:text=After%20age%2030%2C%20you%20begin,risk%20of%20falls%20and%20fractures. <br>
+[10] 
+<a href="https://www.cdc.gov/diabetes/basics/getting-tested.html">Tests for Type 1 Diabetes, Type 2 Diabetes, and Prediabetes</a>  <br>
 
-[13]A Brief History of USDA Food Guides <br>
-https://myplate-prod.azureedge.us/sites/default/files/2020-12/ABriefHistoryOfUSDAFoodGuides.pdf <br>
+[11] 
+<a href="https://www.healthline.com/health/cholesterol-ratio">Understanding the Cholesterol Ratio: What It Is and Why It’s Important</a>  <br>
 
-[14] ScienceDirect. <br>
-High Carbohydrate Diet. <br>
-https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/high-carbohydrate-diet#:~:text=High%2Dcarbohydrate%20diets%20(%3E%2060,type%202%20diabetes%20or%20pregnancy.<br>
+[12] 
+<a href="https://www.health.harvard.edu/staying-healthy/preserve-your-muscle-mass#:~:text=After%20age%2030%2C%20you%20begin,risk%20of%20falls%20and%20fractures">Preserve your muscle mass</a>  <br>
 
-[15] Harvard School of Public Health Department of Nutrition.<br>
-Why are Asians at Higher Risk?<br>
-https://asiandiabetesprevention.org/what-is-diabetes/why-are-asians-higher-risk <br>
+[13]
+<a href="https://www.cdc.gov/obesity/data/prevalence-maps.html#overall">Overweight & Obesity</a>  <br>
 
-[18] Centers for Disease Control and Prevention. <br>
-Overweight & Obesity<br>
-https://www.cdc.gov/obesity/data/prevalence-maps.html#overall <br>
