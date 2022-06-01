@@ -57,15 +57,7 @@ Correlation Coefficient
 </li></b>
 Correlation coefficients are used to measure the strength of a relationship between two variables.[6] The value of correlation coefficient, r range between -1 and +1. The table below shows that the relationship between two variables based on the value of r:
 
-<style>
-table, td {
-  padding-left: 60px;
-  padding-top: 10px;
-}
-th{
-  padding-top: 10px;
-}
-</style>
+
 
 <table style="width:60%">
   <tr>
@@ -184,15 +176,7 @@ In this graph, the correlation coefficient between age and BMI is 0.15. Since it
 
 <h1 style="background-color:#e5f5f7;"><a id="6"> Summary </a> </h1>
 
-<style>
-table, th, td {
-  border: 1px solid white;
-  border-collapse: collapse;
-}
-th, td {
-  background-color:  #F7F0E5;
-}
-</style>
+
 
 <table style="width:100%">
   <tr>
