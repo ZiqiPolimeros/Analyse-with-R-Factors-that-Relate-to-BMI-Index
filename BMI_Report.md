@@ -22,10 +22,12 @@ April 3rd 2022<br>
   <a href="#5.2">Discussion 2</a><br />
   <a href="#5.3">Discussion 3</a><br />
   <a href="#5.4">Discussion 4</a><br />
-  <a href="#5.5">Discussion 5</a><br />
+  
   </ol>
   
-  <a href="#6">References</a><br />
+  <a href="#6">Summary</a><br />
+  
+  <a href="#7">References</a><br />
 
 
 <h1 style="background-color:#e5f5f7;"><a id="1"> Introduction</a> </h1>
@@ -55,8 +57,15 @@ Correlation Coefficient
 </li></b>
 Correlation coefficients are used to measure the strength of a relationship between two variables.[6] The value of correlation coefficient, r range between -1 and +1. The table below shows that the relationship between two variables based on the value of r:
 
-
-<body>
+<style>
+table, td {
+  padding-left: 60px;
+  padding-top: 10px;
+}
+th{
+  padding-top: 10px;
+}
+</style>
 
 <table style="width:60%">
   <tr>
@@ -140,34 +149,22 @@ We added a new feature, cholesterol ratio.[11] In the Blood Pressure data set, b
 
 
 
-From the graph you can tell that BMI has a weak relationship with cholesterol ratio and blood pressure. But even more bizarre, the indicator of relationship between BMI and age soared from 0.2 to 0.34. Since these are laboratory and examination data, we didn't over-process the data. The big change was dropping missing values. Is this the problem? We went over the first data set and only chose two features, weight and age, that avoid dropping to much missing information. See the heatmap below:
+From the graph you can tell that BMI has a weak relationship with cholesterol ratio and blood pressure. But even more bizarre, the indicator of relationship between BMI and age soared from 0.2 to 0.34. Since these are laboratory and examination data, we didn't over-process the data. The big change was dropping missing values. Is this the problem? We decided to add more observations and see what will be the result.
 
 
-!["BMI_age"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/3_heatmap_BMI_age.png?raw=true)
-
-
-
-<br><h3><b><a id="5.4"> Discussion 4 </a></b></h3><br>
-
-The indicator of relationship between Age and BMI violently rose to about 0.6. We have three options for the relationship between Age and BMI. Which one is correct? We did some research on it. An article from Harvard Medical School describes that "The amount of body fat goes up steadily after age 30".[12] Above age 30, people tend to lose 3% to 5% muscle per decade, as well as bones density and organ cells, but gain body fat. This is the aging process. Based on the study, we judged that 0.6 is more accurate.
-
-Why did the indicator of age change so dramatically? We speculate that the missing information causes the sample to become biased. Another reason is that the one year sample is still not big enough to represent the U.S. population. We purposely chose a survey that included three years information which is the biggest survey in NHANES, but we still encountered this problem. To solve the problem, we need to analyze data information from each year. 
-
- 
 
 <h4><i>Diet Behaviors</h4></i>
 
-Since the sample is biased, it's not necessary to show more analysis, but we found something interesting.
+As we mention before, we chose NHANES 2011, 2013, 2015 and NHANES 2017 - March 2020 Pre-Pandemic Data to analyze diet behaviors. 
 
 
 !["BMI,Blood Pressure and Chotesterol"](https://github.com/ZiqiPolimeros/Analyse-with-R-Factors-that-Relate-to-BMI-Index/blob/main/pictures/8_BMI_diet.png?raw=true)
 
 
-<br><h3><b><a id="5.5"> Discussion 5 </a></b></h3><br>
+<br><h3><b><a id="5.4"> Discussion 4 </a></b></h3><br>
 
 
-
-In this sample, we examine ten diet behaviors, which included the following: <br> 
+In this sample, we examine diet behaviors, which included the following: <br> 
 <ol id = "toc">
 How healthy is your diet? <br>
 How much milk did you consumed in the past 30 days? <br>
@@ -183,10 +180,134 @@ From the heatmap you can tell that most of the indicators of these factors are c
 
 As we all know that what we eat and drink directly impact our weight. Before analyzed the dataset, we expected to build a predictive model based on some diet behaviors. However, we couldn't find any proof that the diet behaviors from NHANES impact BMI. We are of the opinion that those questions didn't relate to body weight. If we want to measure the relationship between BMI and diet behaviors, we need to ask specific questions, such as the proportion of protein or carbohydrate in your diet, how much calories do you consume daily, when do you have breakfast or dinner, etc. 
 
+In this graph, the correlation coefficient between age and BMI is 0.15. Since it's from a bigger dataset, which combined four datasets, we believe that 0.15 is more accurate. Previous correlation heat maps were from different subsets, that joined insulin or blood pressure, which makes the subsets bias. 
+
+<h1 style="background-color:#e5f5f7;"><a id="6"> Summary </a> </h1>
+
+<style>
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+th, td {
+  background-color:  #F7F0E5;
+}
+</style>
+
+<table style="width:100%">
+  <tr>
+  <th> Factors</th>
+  <th>	Correlation Coefficient with BMI</th>
+  <th>	Strength of relationship</th>
+  </tr>
+  
+  <tr>
+    <td>Weight</td>
+    <td>0.81 or 0.9</td>
+    <td>Strong relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>Age</td>
+    <td>o.15, 0.2 or o.34</td>
+    <td>No relationship or Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>Blood glucose</td>
+    <td>0.32</td>
+    <td>Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td> Insulin</td>
+    <td> 0.57</td>
+    <td>Moderate relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td> Diabetes</td>
+    <td> 0.29</td>
+    <td>Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>Cholesterol ratio</td>
+    <td> 0.4</td>
+    <td>Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>Systolic</td>
+    <td>0.27</td>
+    <td>Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>Diastolic</td>
+    <td>0.4</td>
+    <td>Weak relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How healthy is your diet?</td>
+    <td> -0.22</td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How much milk did you consumed in the past 30 days? </td>
+    <td>-0.03</td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How many not-home-prepared meals did you consume in the past seven days?</td>
+    <td> 0</td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How many of your meals in the past seven days were from fast food or pizza place?</td>
+    <td>0.05</td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How many of your meals in the past 30 days were from grocery stores(Ready_to_eat_foods)?</td>
+    <td> 0.03 </td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  <tr>
+    <td>How many frozen meals/pizzas did you consume in past 30 days? </td>
+    <td> -0.02</td>
+    <td>No relationship</td>
+
+  </tr>
+  
+  
+  
+</table>
 
 
 
-<h1 style="background-color:#e5f5f7;"><a id="6"> References</a> </h1>
+
+
+<h1 style="background-color:#e5f5f7;"><a id="7"> References</a> </h1>
 
 [1] 
 <a href="https://www.cdc.gov/obesity/data/adult.html#:~:text=From%201999%20%E2%80%932000%20through%202017,and%20certain%20types%20of%20cancer">Obesity is a common, serious, and costly disease</a>  <br>
