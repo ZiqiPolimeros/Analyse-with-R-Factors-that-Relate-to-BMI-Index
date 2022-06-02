@@ -141,7 +141,7 @@ We added a new feature, cholesterol ratio.[11] In the Blood Pressure data set, b
 
 
 
-From the graph you can tell that BMI has a weak relationship with cholesterol ratio and blood pressure. But even more bizarre, the indicator of relationship between BMI and age soared from 0.2 to 0.34. Since these are laboratory and examination data, we didn't over-process the data. The big change was dropping missing values. Is this the problem? We decided to add more observations and see what will be the result.
+From the graph you can tell that BMI has a weak relationship with cholesterol ratio and blood pressure. But even more bizarre, the indicator of relationship between BMI and age soared from 0.2 to 0.34. Since these are laboratory and examination data, we didn't over-process the data. The big change was dropping missing values. Is this the problem? We decided to add more observations and see what the result will be.
 
 
 
