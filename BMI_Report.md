@@ -129,7 +129,7 @@ We also apply the same method on it.
 <br><h3><b><a id="5.2"> Discussion 2 </a></b></h3><br>
 
 The graph shows that there's a moderate relationship between BMI and Insulin. But blood glucose and diabetes have a weak relationship with BMI. However, the indicator of relationship between BMI and age is 0.2 which means there's no relationship! 
-We didn't know what's wrong. In this data set we only dropped some missing values, which is the requirement of performing the method. We wanted to find another material to do the analysis, but it's really difficult to find a data set that contains such comprehensive information and detailed explanation of features. We continued the analysis and hoped the problem can be avoided or addressed.
+
 
 
 <h4><i>Total Cholesterol, High Density Cholesterol and Blood Pressure</h4></i>
@@ -168,11 +168,12 @@ How many frozen meals/pizzas did you consume in past 30 days? <br>
   </ol>
 <br>
 
+In this graph, the correlation coefficient between age and BMI is 0.15. Since it's from a bigger dataset, which combined four datasets, we believe that 0.15 is more accurate. 
+
 From the heatmap you can tell that most of the indicators of these factors are close to zero. The lowest number is from "How healthy is your diet", negative 0.22, which still considered no relationship. We couldn't find any relationship between BMI and the diet behaviors above.
 
-As we all know that what we eat and drink directly impact our weight. Before analyzed the dataset, we expected to build a predictive model based on some diet behaviors. However, we couldn't find any proof that the diet behaviors from NHANES impact BMI. We are of the opinion that those questions didn't relate to body weight. If we want to measure the relationship between BMI and diet behaviors, we need to ask specific questions, such as the proportion of protein or carbohydrate in your diet, how much calories do you consume daily, when do you have breakfast or dinner, etc. 
+As we all know that what we eat, and drink directly impact our weight. Before analyzed the dataset, we expected to build a predictive model based on some diet behaviors. However, we couldn't find any proof that the diet behaviors from The survey impact BMI. We are of the opinion that those questions didn't relate to body weight. Diets relate to body weight because the calories that you consume. If the calories that you consume is less than the calories that the body need to maintain it’s weight, you will lose weight, and vice versa. However, in the survey questions were how often you had fast food or frozen food. It didn't count the amount of food that you had. The calories that you intake was uncertain. If we want to measure the relationship between BMI and diet behaviors, we need to ask more specific questions, such as how much calories do you consume daily, the proportion of protein in your diet, etc.
 
-In this graph, the correlation coefficient between age and BMI is 0.15. Since it's from a bigger dataset, which combined four datasets, we believe that 0.15 is more accurate. Previous correlation heat maps were from different subsets, that joined insulin or blood pressure, which makes the subsets bias. 
 
 <h1 style="background-color:#e5f5f7;"><a id="6"> Summary </a> </h1>
 
