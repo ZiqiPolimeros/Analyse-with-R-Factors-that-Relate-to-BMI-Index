@@ -519,12 +519,7 @@ https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?cycle=2017-2020
 
 
 
-```{r}
-ggplot(data = BMI) +
-  aes_string(x = "BMI", y = "Milk") +
-  aes(fill = factor(BMI)) +
-  geom_boxplot() 
-```
+
 
 
 
